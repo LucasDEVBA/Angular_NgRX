@@ -1,0 +1,11 @@
+<div class="app-counter-container">
+  <div class="app-counter">
+    <app-counter-value [count]="counterValue"></app-counter-value>
+    <app-counter-button
+      (incrementClicked)="incrementCount()"
+      (decrementClicked)="decrementCount()"
+      (resetClicked)="resetCount()"
+    >
+    </app-counter-button>
+  </div>
+</div>
