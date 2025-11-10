@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { CounterState } from '../states/counter.state';
 
 @Component({
   selector: 'app-counter-value',
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class CounterValueComponent implements OnInit, OnDestroy {
   constructor(
-    private store: Store<{counter: {counter: number}}>
+    private store: Store<{counter: CounterState}>
   ) {}
 
   counter: number = 0;
