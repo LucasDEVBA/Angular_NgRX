@@ -1,21 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CounterState } from '../states/counter.state';
-import { customIncrement } from '../states/counter.actions';
+import { customIncrement, toggleCustomInput } from '../states/counter.actions';
+import { getToggle } from '../states/counter.selector';
+import { Observable } from 'rxjs';
+import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'app-custom-input',
   templateUrl: './custom-input.component.html',
-  styleUrls: ['./custom-input.component.css']
+  styleUrls: ['./custom-input.component.css'],
 })
-export class CustomInputComponent {
-  constructor(
-    private store: Store<{counter: CounterState}>
-  ){}
+export class CustomInputComponent implements OnInit {
+  constructor(private store: Store<AppState>) {}
 
-  customValue: number = 0
+  customValue: number = 0;
+  showCustomInput$: Observable<boolean> | null = null;
+
+  ngOnInit() {
+    this.showCustomInput$ = this.store.select(getToggle);
+  }
 
   onCustomIncrement() {
-    this.store.dispatch(customIncrement({value: +this.customValue}))
+    this.store.dispatch(customIncrement({ value: +this.customValue }));
+  }
+
+  onClickToggle() {
+    this.store.dispatch(toggleCustomInput());
   }
 }

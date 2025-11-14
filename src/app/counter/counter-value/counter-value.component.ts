@@ -1,30 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CounterState } from '../states/counter.state';
+import { getCounter } from '../states/counter.selector';
+import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'app-counter-value',
   templateUrl: './counter-value.component.html',
-  styleUrls: ['./counter-value.component.css']
+  styleUrls: ['./counter-value.component.css'],
 })
-export class CounterValueComponent implements OnInit, OnDestroy {
-  constructor(
-    private store: Store<{counter: CounterState}>
-  ) {}
+export class CounterValueComponent implements OnInit {
+  constructor(private store: Store<AppState>) {}
 
-  counter: number = 0;
-  counterSubscription: Subscription | null = null;
+  counter$: Observable<number> | null = null;
 
   ngOnInit() {
-    this.counterSubscription = this.store.select('counter').subscribe(state => {
-      this.counter = state.counter;
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.counterSubscription) {
-      this.counterSubscription.unsubscribe();
-    }
+    this.counter$ = this.store.select(getCounter);
   }
 }
